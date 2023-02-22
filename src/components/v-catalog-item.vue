@@ -14,7 +14,7 @@
             <div class="v-catalog-item__buyarea-text">
                 {{ product_data.price }} 
             </div>
-            <button @click="sendToParent" class="v-catalog-item__buyarea-btn">
+            <button @click="addToCart" class="v-catalog-item__buyarea-btn">
                 В корзину
             </button>
         </div>
@@ -38,14 +38,14 @@ export default {
         };
     },
     methods:{
-        sendToParent(){
-            this.$emit('hello',this.product_data.article);
+        addToCart(){
+            this.$emit('addToCart',this.product_data);
         }
     }
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
     .v-catalog-item
         flex-basis: 23%
         margin: 20px
