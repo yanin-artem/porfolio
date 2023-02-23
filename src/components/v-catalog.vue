@@ -1,8 +1,11 @@
 <template>
     <div class="v-catalog">
-        <h1 class="v-catalog__title">
+        <div class="v-catalog__header">
+            <h1 class="v-catalog__header-title">
             Каталог
         </h1>
+        <router-link :to="{name:'cart'}">Cart:{{ CART.length }}</router-link>
+        </div>
         <vCatalogItem 
         v-for="product in PRODUCTS"
         :key="product.article"
@@ -31,7 +34,7 @@ export default {
         }
     },
     computed:{
-        ...mapGetters(['PRODUCTS'])
+        ...mapGetters(['PRODUCTS','CART'])
     },
     mounted(){
         this.GET_PRODUCTS_FROM_API().then((response)=>{
@@ -49,12 +52,15 @@ export default {
         display: flex
         justify-content: space-between
         flex-wrap: wrap
-        &__title
-            text-align: center
+        &__header
+            display: flex
+            justify-content: space-between
+            align-items: center
             flex-basis: 100%
-            color: #b5c5fc
-            font-family: sans-serif
-            text-shadow: 0 0 8px grey
+            &-title
+                color: #b5c5fc
+                font-family: sans-serif
+                text-shadow: 0 0 8px grey
             
     
 </style>
