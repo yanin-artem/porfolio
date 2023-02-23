@@ -4,7 +4,7 @@
             <h1 class="v-catalog__header-title">
             Каталог
         </h1>
-        <router-link :to="{name:'cart'}">Cart:{{ CART.length }}</router-link>
+        <router-link class="v-catalog__header-link" :to="{name:'cart'}"><i class="v-catalog__header-icon material-icons">shopping_cart</i>{{ CART.length }}</router-link>
         </div>
         <vCatalogItem 
         v-for="product in PRODUCTS"
@@ -57,6 +57,14 @@ export default {
             justify-content: space-between
             align-items: center
             flex-basis: 100%
+            &-link
+                text-decoration: none
+                font-family: sans-serif
+                color: #b5c5fc
+                &:active
+                 color:#18c8ff
+            &-icon
+                font-size: 40px
             &-title
                 color: #b5c5fc
                 font-family: sans-serif

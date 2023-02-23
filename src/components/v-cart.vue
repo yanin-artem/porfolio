@@ -3,18 +3,18 @@
         <h2>Корзина</h2>
         <div class="v-cart__info">
             <div class="v-cart__info__subtitle">
-            {{ CART.length }} товаров в корзине
+                {{ CART.length }} товаров в корзине
+            </div>
+            <router-link :to="{ name: 'catalog' }">
+                <button class="v-cart__info__btn">
+                    В каталог
+                </button>
+            </router-link>
+            <div class="v-cart__info-empty" v-if="!CART.length">
+                Корзина пуста
+            </div>
         </div>
-        <router-link :to="{name:'catalog'}">
-            <button class="v-cart__info__btn">
-                В каталог
-            </button>
-        </router-link>
-        <div v-if="!CART.length">
-            Корзина пуста
-        </div>
-        </div>
-        <vCartItem v-for="(item,index) in CART"
+        <vCartItem v-for="(item, index) in CART"
         :key="item.article"
         :cart_item_data="item"
         @deleteFromCart="deleteFromCart(index)"/>
@@ -23,26 +23,26 @@
 
 <script>
 import vCartItem from './v-cart-item.vue';
-import { mapActions, mapGetters} from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'v-cart',
-    components:{
+    components: {
         vCartItem
     },
-    props:{
-        cart_data:{
-            type:Array,
-            default(){
+    props: {
+        cart_data: {
+            type: Array,
+            default() {
                 return [];
             }
         }
     },
-    computed:{
+    computed: {
         ...mapGetters(['CART'])
     },
-    methods:{
+    methods: {
         ...mapActions(['DELETE_FROM_CART']),
-        deleteFromCart(index){
+        deleteFromCart(index) {
             this.DELETE_FROM_CART(index);
         }
     }
@@ -73,7 +73,10 @@ export default {
                 color: #fff
                 cursor: pointer
                 margin-top: 20px
-
+            &-empty
+                color: grey
+                margin-top: 20px
+                font-size: 25px
     p
         text-align: center
         font-size: 20px
