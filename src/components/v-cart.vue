@@ -3,7 +3,7 @@
         <h2>Корзина</h2>
         <div class="v-cart__info">
             <div class="v-cart__info__subtitle">
-                {{ CART.length }} товаров в корзине
+                {{ QUANTITY }} товаров в корзине
             </div>
             <router-link :to="{ name: 'catalog' }">
                 <button class="v-cart__info__btn">
@@ -17,7 +17,9 @@
         <vCartItem v-for="(item, index) in CART"
         :key="item.article"
         :cart_item_data="item"
-        @deleteFromCart="deleteFromCart(index)"/>
+        @deleteFromCart="deleteFromCart(index, data)"
+        @addToCart="addToCart"
+        @subtractFromCart="subtractFromCart(index)"/>
     </div>
 </template>
 
@@ -37,15 +39,21 @@ export default {
             }
         }
     },
-    computed: {
-        ...mapGetters(['CART'])
-    },
     methods: {
-        ...mapActions(['DELETE_FROM_CART']),
+        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART']),
         deleteFromCart(index) {
             this.DELETE_FROM_CART(index);
+        },
+        addToCart(data) {
+            this.ADD_TO_CART(data);
+        },
+        subtractFromCart(index) {
+            this.SUBTRACT_FROM_CART(index);
         }
-    }
+    },
+    computed: {
+        ...mapGetters(['CART', 'QUANTITY']),
+    },
 }
 </script>
 

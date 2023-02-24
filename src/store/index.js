@@ -4,7 +4,8 @@ import axios from 'axios';
 export default createStore({
   state: {
     products:[],
-    cart:[]
+    cart:[],
+    itemsQuantity:0
   },
   getters: {
     PRODUCTS(state){
@@ -12,6 +13,9 @@ export default createStore({
     },
     CART(state){
       return state.cart
+    },
+    QUANTITY(state){
+      return state.itemsQuantity
     }
   },
   mutations: {
@@ -19,10 +23,24 @@ export default createStore({
       state.products = products
     },
     SET_CART:(state,product)=>{
-      state.cart.push(product);
+      if(product.quantity===0){
+        state.cart.push(product);
+        product.quantity++;
+      }
+      else
+        product.quantity++;
+      state.itemsQuantity++;
     },
     REMOVE_FROM_CART:(state,index)=>{
+      state.itemsQuantity-=state.cart[index].quantity;
       state.cart.splice(index,1);
+    },
+    SUBTRACT_FROM_CART:(state,index)=>{
+      state.itemsQuantity--;
+      state.cart[index].quantity--;
+      if(state.cart[index].quantity<1){
+        state.cart.splice(index,1);
+      }
     }
   },
   actions: {
@@ -40,6 +58,9 @@ export default createStore({
     },
     DELETE_FROM_CART({commit},index){
       commit('REMOVE_FROM_CART',index);
+    },
+    SUBTRACT_FROM_CART({commit},index){
+      commit('SUBTRACT_FROM_CART',index);
     }
   },
   modules: {

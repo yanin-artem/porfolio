@@ -4,7 +4,7 @@
             <h1 class="v-catalog__header-title">
             Каталог
         </h1>
-        <router-link class="v-catalog__header-link" :to="{name:'cart'}"><i class="v-catalog__header-icon material-icons">shopping_cart</i>{{ CART.length }}</router-link>
+        <router-link class="v-catalog__header-link" :to="{name:'cart'}"><i class="v-catalog__header-icon material-icons">shopping_cart</i>{{ QUANTITY }}</router-link>
         </div>
         <vCatalogItem 
         v-for="product in PRODUCTS"
@@ -34,7 +34,7 @@ export default {
         }
     },
     computed:{
-        ...mapGetters(['PRODUCTS','CART'])
+        ...mapGetters(['PRODUCTS','CART','QUANTITY'])
     },
     mounted(){
         this.GET_PRODUCTS_FROM_API().then((response)=>{

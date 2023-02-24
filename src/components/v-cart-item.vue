@@ -10,9 +10,11 @@
         </div>
         <div class="v-cart-item__quantity">
             <p>Quantity</p>
-            <span>
-                {{ cart_item_data.quantity }}
-            </span>
+            <div class="v-cart-item__quantity-logic">
+                <button @click="subtractFromCart()" class="material-icons">remove</button>
+                <span>{{ cart_item_data.quantity }}</span>
+                <button class="material-icons" @click="addToCart()">add</button>
+            </div>
             <button @click="deleteFromCart" class="v-cart-item__quantity__btn">Delete</button>
         </div>
         </div>
@@ -20,23 +22,32 @@
 </template>
 
 <script>
-    export default {
-        name:'v-cart-item',
-        props:{
-            cart_item_data:{
-                type:Object,
-                default(){
-                    return {};
-                }
-            }
-        },
-        methods:{
-            deleteFromCart(){
-                this.$emit('deleteFromCart')
+export default {
+    name: 'v-cart-item',
+    props: {
+        cart_item_data: {
+            type: Object,
+            default() {
+                return {};
             }
         }
+    },
+    methods: {
+        deleteFromCart() {
+            this.$emit('deleteFromCart')
+        },
+        addToCart() {
+            this.$emit('addToCart', this.cart_item_data)
+        },
+        subtractFromCart() {
+            this.$emit('subtractFromCart')
+        }
+    },
+    computed: {
 
     }
+
+}
 </script>
 
 <style lang="sass" scoped>
@@ -59,6 +70,10 @@
                 justify-content: space-between
                 font-size: 16px
         &__quantity
+            display: flex
+            flex-wrap: wrap
+            p
+                flex-basis: 100%
             &__btn
                 width: 30%
                 border: none
@@ -68,4 +83,13 @@
                 color: #fff
                 cursor: pointer
                 margin-left: 10%
+            &-logic
+                display: flex
+                align-items: center
+                padding: 5px
+                background: #fff
+                border-radius: 30px
+                .material-icons
+                    background: none
+                    border: none
 </style>
