@@ -41,7 +41,7 @@ export default {
         },
         subtractFromCart() {
             this.$emit('subtractFromCart')
-        }
+        },
     },
     computed: {
 

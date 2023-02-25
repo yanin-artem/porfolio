@@ -5,7 +5,8 @@ export default createStore({
   state: {
     products:[],
     cart:[],
-    itemsQuantity:0
+    itemsQuantity:0,
+    allCoast:0
   },
   getters: {
     PRODUCTS(state){
@@ -16,6 +17,9 @@ export default createStore({
     },
     QUANTITY(state){
       return state.itemsQuantity
+    },
+    COAST(state){
+      return state.allCoast
     }
   },
   mutations: {
@@ -32,15 +36,20 @@ export default createStore({
       state.itemsQuantity++;
     },
     REMOVE_FROM_CART:(state,index)=>{
+      state.allCoast-=state.cart[index].price*state.cart[index].quantity;
       state.itemsQuantity-=state.cart[index].quantity;
       state.cart.splice(index,1);
     },
     SUBTRACT_FROM_CART:(state,index)=>{
+      state.allCoast-=state.cart[index].price;
       state.itemsQuantity--;
       state.cart[index].quantity--;
       if(state.cart[index].quantity<1){
         state.cart.splice(index,1);
       }
+    },
+    SET_COAST:(state,product)=>{
+      state.allCoast+=product.price;
     }
   },
   actions: {
@@ -61,6 +70,9 @@ export default createStore({
     },
     SUBTRACT_FROM_CART({commit},index){
       commit('SUBTRACT_FROM_CART',index);
+    },
+    SET_COAST({commit},product){
+      commit('SET_COAST',product);
     }
   },
   modules: {

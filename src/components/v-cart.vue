@@ -17,9 +17,12 @@
         <vCartItem v-for="(item, index) in CART"
         :key="item.article"
         :cart_item_data="item"
-        @deleteFromCart="deleteFromCart(index, data)"
+        @deleteFromCart="deleteFromCart(index)"
         @addToCart="addToCart"
         @subtractFromCart="subtractFromCart(index)"/>
+    </div>
+    <div class="v-cart__coast">
+        {{COAST}}
     </div>
 </template>
 
@@ -40,19 +43,21 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART']),
+        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART','SET_COAST']),
         deleteFromCart(index) {
             this.DELETE_FROM_CART(index);
         },
         addToCart(data) {
             this.ADD_TO_CART(data);
+            this.SET_COAST(data);
         },
         subtractFromCart(index) {
             this.SUBTRACT_FROM_CART(index);
-        }
+        },
+        
     },
     computed: {
-        ...mapGetters(['CART', 'QUANTITY']),
+        ...mapGetters(['CART', 'QUANTITY','COAST']),
     },
 }
 </script>
@@ -85,6 +90,8 @@ export default {
                 color: grey
                 margin-top: 20px
                 font-size: 25px
+        &__coast
+            color: #fff
     p
         text-align: center
         font-size: 20px

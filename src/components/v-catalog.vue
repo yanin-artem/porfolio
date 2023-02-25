@@ -28,9 +28,10 @@ export default {
         }
     },
     methods:{
-        ...mapActions(['GET_PRODUCTS_FROM_API','ADD_TO_CART']),
+        ...mapActions(['GET_PRODUCTS_FROM_API','ADD_TO_CART','SET_COAST']),
         addToCart(data){
             this.ADD_TO_CART(data);
+            this.SET_COAST(data);
         }
     },
     computed:{
