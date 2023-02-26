@@ -28,10 +28,10 @@ export default {
         }
     },
     methods:{
-        ...mapActions(['GET_PRODUCTS_FROM_API','ADD_TO_CART','SET_COAST']),
+        ...mapActions(['GET_PRODUCTS_FROM_API','ADD_TO_CART','SET_COST']),
         addToCart(data){
             this.ADD_TO_CART(data);
-            this.SET_COAST(data);
+            this.SET_COST(data);
         }
     },
     computed:{
@@ -60,7 +60,6 @@ export default {
             flex-basis: 100%
             &-link
                 text-decoration: none
-                font-family: sans-serif
                 color: #b5c5fc
                 &:active
                  color:#18c8ff
@@ -68,7 +67,6 @@ export default {
                 font-size: 40px
             &-title
                 color: #b5c5fc
-                font-family: sans-serif
                 text-shadow: 0 0 8px grey
             
     

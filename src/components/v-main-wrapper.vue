@@ -17,9 +17,8 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
     .v-main-wrapper
         max-width: 900px
         margin: 0 auto
-
 </style>

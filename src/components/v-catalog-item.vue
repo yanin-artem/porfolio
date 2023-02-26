@@ -55,7 +55,6 @@ export default {
         background: #d7ccdc
         border-radius: 20px 
         text-align: center
-        font-family: sans-serif
         position: relative
         &__title
             margin: 10px 0 0 

@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import vCart from '../components/v-cart.vue'
 import vCatalog from '../components/v-catalog.vue'
+import vPay from '../components/v-pay.vue'
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
   name:'cart',
   component:vCart,
   props:true
+ },
+ {
+  path:'/pay',
+  name:'pay',
+  component:vPay,
  },
 ]
 

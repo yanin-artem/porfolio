@@ -21,8 +21,13 @@
         @addToCart="addToCart"
         @subtractFromCart="subtractFromCart(index)"/>
     </div>
-    <div class="v-cart__coast">
-        {{COAST}}
+    <div class="v-cart__cost">
+        <div class="v-cart__cost-text">
+            Цена: {{ COST }}
+        </div>
+        <router-link v-if="COST" :to="{name:'pay'}" class="v-cart__cost-btn">
+            Оплатить
+        </router-link>
     </div>
 </template>
 
@@ -43,21 +48,23 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART','SET_COAST']),
+        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART','SET_COST','SUBTRACT_COST','DELETE_COST']),
         deleteFromCart(index) {
+            this.DELETE_COST(index);
             this.DELETE_FROM_CART(index);
         },
         addToCart(data) {
             this.ADD_TO_CART(data);
-            this.SET_COAST(data);
+            this.SET_COST(data);
         },
         subtractFromCart(index) {
+            this.SUBTRACT_COST(index);
             this.SUBTRACT_FROM_CART(index);
         },
         
     },
     computed: {
-        ...mapGetters(['CART', 'QUANTITY','COAST']),
+        ...mapGetters(['CART', 'QUANTITY','COST']),
     },
 }
 </script>
@@ -69,7 +76,6 @@ export default {
         flex-wrap: wrap
         font-size: 20px
         margin-bottom: 100px
-        font-family: sans-serif
         &__info
             display: flex
             flex-direction: column
@@ -90,8 +96,26 @@ export default {
                 color: grey
                 margin-top: 20px
                 font-size: 25px
-        &__coast
+        &__cost
             color: #fff
+            display: flex
+            align-items: center
+            &-btn
+                width: 200px
+                border: none
+                background: linear-gradient(225deg,#18c8ff 14.89%,#933ffe 85.85%)
+                border-radius: 12px
+                min-height: 40px
+                color: #fff
+                cursor: pointer
+                margin-left: 20px
+                text-align: center
+                line-height: 40px
+                font-size: 20px
+                text-decoration: none
+            &-text
+                font-size: 30px
+
     p
         text-align: center
         font-size: 20px

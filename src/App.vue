@@ -13,6 +13,8 @@ export default {
 
 <style lang="sass">
   body
-        background: #0a0120
+      background: #0a0120
+  *
+      font-family: sans-serif
 
 </style>
