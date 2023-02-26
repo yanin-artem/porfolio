@@ -76,7 +76,7 @@ export default {
             &__cart.fixed
                 position: fixed
                 top: 10vh
-                right: 10vwы
+                right: 10vw
             &-link
                 text-decoration: none
                 color: #b5c5fc
