@@ -1,5 +1,5 @@
 <template>
-    <div class="v-catalog-item">
+    <div class="v-catalog-item" >
         <img :src="require('../assets/images/' + product_data.image)" alt="">
         <h2 class="v-catalog-item__title">
             {{ product_data.name }}
@@ -26,9 +26,9 @@ export default {
     name: 'v-catalog-item',
     props: {
         product_data: {
-            type:Object,
-            default(){
-                return{};
+            type: Object,
+            default() {
+                return {};
             },
         },
     },
@@ -37,10 +37,10 @@ export default {
 
         };
     },
-    methods:{
-        addToCart(){
-            this.$emit('addToCart',this.product_data);
-        }
+    methods: {
+        addToCart() {
+            this.$emit('addToCart', this.product_data);
+        },
     }
 }
 </script>
@@ -56,6 +56,9 @@ export default {
         border-radius: 20px 
         text-align: center
         position: relative
+        img
+            width: 180px
+            height: 140px
         &__title
             margin: 10px 0 0 
         &__category
@@ -79,6 +82,8 @@ export default {
                 min-height: 35px
                 color: #fff
                 cursor: pointer
+    .v-catalog-item.active
+        flex-basis: 5%
 
 
 

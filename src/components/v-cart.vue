@@ -61,7 +61,6 @@ export default {
             this.SUBTRACT_COST(index);
             this.SUBTRACT_FROM_CART(index);
         },
-        
     },
     computed: {
         ...mapGetters(['CART', 'QUANTITY','COST']),

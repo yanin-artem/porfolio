@@ -1,10 +1,16 @@
 <template>
     <div class="v-catalog">
-        <div class="v-catalog__header">
+        <div class="v-catalog__header" ref="header">
             <h1 class="v-catalog__header-title">
             Каталог
         </h1>
-        <router-link class="v-catalog__header-link" :to="{name:'cart'}"><i class="v-catalog__header-icon material-icons">shopping_cart</i>{{ QUANTITY }}</router-link>
+        <div class="v-catalog__header__cart"
+        :class="{fixed:show}">
+        <router-link class="v-catalog__header-link" :to="{name:'cart'}">
+            <i class="v-catalog__header-icon material-icons">shopping_cart</i>
+            {{ QUANTITY }}
+        </router-link>
+        </div>
         </div>
         <vCatalogItem 
         v-for="product in PRODUCTS"
@@ -25,6 +31,7 @@ export default {
     },
     data() {
         return {
+            show:true
         }
     },
     methods:{
@@ -32,10 +39,10 @@ export default {
         addToCart(data){
             this.ADD_TO_CART(data);
             this.SET_COST(data);
-        }
+        },
     },
     computed:{
-        ...mapGetters(['PRODUCTS','CART','QUANTITY'])
+        ...mapGetters(['PRODUCTS','CART','QUANTITY']),
     },
     mounted(){
         this.GET_PRODUCTS_FROM_API().then((response)=>{
@@ -43,6 +50,13 @@ export default {
                 console.log("Данные пришли");
             }
         });
+
+        const observer = new IntersectionObserver(()=>{
+            this.show=!this.show;
+        },{
+            threshold:0.4
+        });
+        observer.observe(this.$refs.header);
     }
 }
 </script>
@@ -53,11 +67,16 @@ export default {
         display: flex
         justify-content: space-between
         flex-wrap: wrap
+        position: relative
         &__header
             display: flex
             justify-content: space-between
             align-items: center
             flex-basis: 100%
+            &__cart.fixed
+                position: fixed
+                top: 10vh
+                right: 10vwы
             &-link
                 text-decoration: none
                 color: #b5c5fc

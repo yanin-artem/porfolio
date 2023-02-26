@@ -59,6 +59,36 @@
             "category": "it products",
             "quantity": 0,
             "about": "Hi! I've many solutions!"
+        },
+        {
+            "image": "7.png",
+            "name": "Хель",
+            "price": "Бесценно",
+            "article": "T7",
+            "available": true,
+            "category": "Котик",
+            "quantity": 0,
+            "about": "Мама кошка. Не стоит добавлять в корзину товары из раздела 'Котик'"
+        },
+        {
+            "image": "8.png",
+            "name": "Герц",
+            "price": "Бесценно",
+            "article": "T8",
+            "available": true,
+            "category": "Котик",
+            "quantity": 0,
+            "about": "Бандит и вор. Не стоит добавлять в корзину товары из раздела 'Котик'"
+        },
+        {
+            "image": "9.png",
+            "name": "Мурзик",
+            "price": "Бесценно",
+            "article": "T8",
+            "available": true,
+            "category": "Котик",
+            "quantity": 0,
+            "about": "Местный дундук. Не стоит добавлять в корзину товары из раздела 'Котик'"
         }
     ]
 }

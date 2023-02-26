@@ -57,11 +57,12 @@ export default {
         flex-basis: 100%
         box-shadow: 0 0 8px 0 grey
         margin: 20px
-        min-height: 200px
+        height: 230px
         background: #d7ccdc
         border-radius: 20px 
         &__img
             height: 100%
+            border-radius: 20px 0 0 20px 
         &__content
             padding: 20px
             width: 100%
