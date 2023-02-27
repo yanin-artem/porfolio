@@ -14,6 +14,7 @@ export default {
 <style lang="sass">
   body
       background: #0a0120
+      overflow-x: hidden
   *
       font-family: sans-serif
 

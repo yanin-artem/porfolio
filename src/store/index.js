@@ -6,7 +6,9 @@ export default createStore({
     products:[],
     cart:[],
     itemsQuantity:0,
-    allCost:0
+    allCost:0,
+    error:false,
+    errorMessage:''
   },
   getters: {
     PRODUCTS(state){
@@ -20,6 +22,12 @@ export default createStore({
     },
     COST(state){
       return state.allCost
+    },
+    ERROR(state){
+      return state.error
+    },
+    ERROR_MESSAGE(state){
+      return state.errorMessage
     }
   },
   mutations: {
@@ -57,17 +65,47 @@ export default createStore({
     },
     DELETE_COST:(state,index)=>{
       state.allCost-=state.cart[index].price*state.cart[index].quantity;
+    },
+    //ERROR
+    ERROR:(state,error)=>{
+      state.error=error;
+    },
+    ERROR_MESSAGE:(state,errorMessage)=>{
+      state.errorMessage=errorMessage;
     }
   },
   actions: {
     //PRODUCTS
-    GET_PRODUCTS_FROM_API({commit}){
+    GET_PRODUCTS_FROM_API({commit},error,errorMessage){
       return axios('http://localhost:3000/products',{
         method:'GET'
       })
       .then((products)=>{
         commit('SET_PRODUCTS_TO_STATE',products.data)
+        console.log(products);
         return products
+      })
+      .catch((e)=>{
+        console.log(e);
+        if(e.response.status===404){
+          error=true;
+          errorMessage='Cтраница не найдена';
+          commit('ERROR',error);
+          commit('ERROR_MESSAGE',errorMessage)
+        }
+        else if(e.response.status===500){
+          error=true;
+          errorMessage='Что-то пошло не так, но мы не знаем, что именно';
+          commit('ERROR',error);
+          commit('ERROR_MESSAGE',errorMessage)
+        }
+        else if(e.response.status===503){
+          error=true;
+          errorMessage='Сервер помер по техническим причинам. Повторите попытку когда нибудь...';
+          commit('ERROR',error);
+          commit('ERROR_MESSAGE',errorMessage)
+        }
+        return e
       })
     },
     //CART

@@ -18,6 +18,13 @@
         :product_data="product"
         @addToCart="addToCart"
         />
+        <transition name="slide">
+            <div v-if="ERROR" class="v-catalog__error">
+                <div class="v-catalog__error-text">
+                    {{ ERROR_MESSAGE }}
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -42,7 +49,7 @@ export default {
         },
     },
     computed:{
-        ...mapGetters(['PRODUCTS','CART','QUANTITY']),
+        ...mapGetters(['PRODUCTS','CART','QUANTITY','ERROR','ERROR_MESSAGE']),
     },
     mounted(){
         this.GET_PRODUCTS_FROM_API().then((response)=>{
@@ -87,6 +94,49 @@ export default {
             &-title
                 color: #b5c5fc
                 text-shadow: 0 0 8px grey
-            
+        &__error
+            position: absolute
+            display: flex
+            align-items: center
+            justify-content: center
+            z-index: 1
+            top: 80vh
+            right: 0
+            max-width: 500px
+            min-height: 30px
+            padding: 40px
+            background: #000
+            color: #fff
+            border-radius:20px
+            animation: leave 5.5s
+            right: -50vw
+            &-text
+                display: block
+                overflow: hidden
+                white-space: nowrap
+                border-right: .15em solid orange
+                animation: typing 3.5s steps(30, end),blink-caret .7s step-end infinite
+    @keyframes typing 
+        0% 
+            width: 0
+        100%
+            width: 100%
+
+    @keyframes blink-caret 
+        0%
+        100%
+            border-color: transparent 50% 
+        50%
+            border-color: orange
+    
+
+    @keyframes leave
+        0%
+            right: 0
+        75%
+            right: 0
+        100% 
+            right: -50vw
+  
     
 </style>
