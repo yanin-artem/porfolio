@@ -105,16 +105,18 @@ export default {
             max-width: 500px
             min-height: 30px
             padding: 40px
-            background: #000
             color: #fff
-            border-radius:20px
             animation: leave 5.5s
             right: -50vw
+            background: linear-gradient(292deg,#a064ff33,#0a001900),#ffffff0d
+            border: 1px solid #f0f9
+            border-radius: 10px
+            box-shadow: 0 0 15px #fff3
             &-text
                 display: block
                 overflow: hidden
                 white-space: nowrap
-                border-right: .15em solid orange
+                border-right: .15em solid #8e24aa
                 animation: typing 3.5s steps(30, end),blink-caret .7s step-end infinite
     @keyframes typing 
         0% 
@@ -127,7 +129,7 @@ export default {
         100%
             border-color: transparent 50% 
         50%
-            border-color: orange
+            border-color: #8e24aa
     
 
     @keyframes leave
