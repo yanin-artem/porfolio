@@ -13,8 +13,8 @@
         </div>
         </div>
         <vCatalogItem 
-        v-for="product in PRODUCTS"
-        :key="product.id"
+        v-for="product in getProducts"
+        :key="product.id + product.available"
         :product_data="product"
         @addToCart="addToCart"
         />
@@ -31,6 +31,7 @@
 <script>
 import vCatalogItem from './v-catalog-item.vue';
 import { mapActions, mapGetters } from 'vuex';
+import { products } from "@/sdk/products"
 export default {
     name: 'v-catalog',
     components: {
@@ -43,14 +44,18 @@ export default {
     },
     methods: {
         ...mapActions(['GET_PRODUCTS_FROM_API', 'ADD_TO_CART', 'SET_COST', "GET_CART_FROM_API"]),
-        addToCart(data) {
-            console.log("addToCart", data)
+        async addToCart(data) {
+            data.available = await products.toggleAvailable(data).available
             this.ADD_TO_CART(data);
-            this.SET_COST(data.product);
+            this.SET_COST(data);
         },
+
     },
     computed: {
         ...mapGetters(['PRODUCTS', 'CART', 'QUANTITY', 'ERROR', 'ERROR_MESSAGE']),
+        getProducts() {
+            return this.PRODUCTS.filter(item => item.available === true)
+        }
     },
     mounted() {
         this.GET_PRODUCTS_FROM_API().then((response) => {

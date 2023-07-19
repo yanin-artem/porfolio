@@ -48,13 +48,13 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART', 'SET_COST', 'SUBTRACT_COST', 'DELETE_COST']),
+        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART', 'SET_COST', 'SUBTRACT_COST', 'DELETE_COST', 'ADD_QUANTITY']),
         deleteFromCart(index) {
             this.DELETE_COST(index);
             this.DELETE_FROM_CART(index);
         },
         addToCart(data) {
-            this.ADD_TO_CART(data);
+            this.ADD_QUANTITY(data)
             this.SET_COST(data.product);
         },
         subtractFromCart(index) {

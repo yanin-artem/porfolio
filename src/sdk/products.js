@@ -6,6 +6,13 @@ const fetchProducts = async () => {
   });
 };
 
+const toggleAvailable = async (product) => {
+  return await axios.patch("http://localhost:8080/products/" + product.id, {
+    available: !product.available,
+  });
+};
+
 export const products = {
   fetchProducts,
+  toggleAvailable,
 };

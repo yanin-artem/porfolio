@@ -38,25 +38,35 @@ export default createStore({
     },
     //CART
     SET_CART: (state, cartProduct) => {
-      if (cartProduct.quantity === 1) {
-        state.cart.push(cartProduct);
-      } else cartProduct.product.quantity++;
+      state.cart.push(cartProduct);
       state.itemsQuantity++;
     },
     REMOVE_FROM_CART: (state, index) => {
       state.itemsQuantity -= state.cart[index].quantity;
+      cart.deleteProductFromCart(state.cart[index]);
+      products.toggleAvailable(state.cart[index].product);
+      cart.changeProductsQuantity(state.cart[index], 1);
       state.cart.splice(index, 1);
     },
     SUBTRACT_FROM_CART: (state, index) => {
       state.itemsQuantity--;
       state.cart[index].quantity--;
-      if (state.cart[index].quantity < 1) {
+      cart.changeProductsQuantity(
+        state.cart[index],
+        state.cart[index].quantity
+      );
+      if (state.cart[index].quantity < 2) {
+        cart.deleteProductFromCart(state.cart[index]);
+        products.toggleAvailable(state.cart[index].product);
         state.cart.splice(index, 1);
       }
     },
+    ADDITION_TO_CART: (state, cartProduct) => {
+      const item = state.cart.find((item) => item.id === cartProduct.id);
+      item.quantity++;
+    },
     //COST
     SET_COST: (state, product) => {
-      console.log("product SETCOST", product);
       state.allCost += product.price;
     },
     SUBTRACT_COST: (state, index) => {
@@ -93,7 +103,14 @@ export default createStore({
     },
     async ADD_TO_CART({ commit }, product) {
       const addedProduct = await cart.addProductToCart(product);
-      // commit("SET_CART", product);
+      const cartItem = this.state.cart.find(
+        (item) => item.product.id === product.id
+      );
+      commit("SET_CART", cartItem);
+    },
+    async ADD_QUANTITY({ commit }, cartProduct) {
+      cart.changeProductsQuantity(cartProduct, cartProduct.quantity + 1);
+      commit("ADDITION_TO_CART", cartProduct);
     },
     DELETE_FROM_CART({ commit }, index) {
       commit("REMOVE_FROM_CART", index);
