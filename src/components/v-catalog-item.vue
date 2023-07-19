@@ -1,11 +1,11 @@
 <template>
     <div class="v-catalog-item" >
-        <img :src="require('../assets/images/' + product_data.image)" alt="">
+        <!-- <img :src="require('../assets/images/' + product_data.image)" alt=""> -->
         <h2 class="v-catalog-item__title">
             {{ product_data.name }}
         </h2>
         <div class="v-catalog-item__category">
-            {{ product_data.category }}
+            {{ product_data.category.name }}
         </div>
         <div class="v-catalog-item__about">
             {{ product_data.about }}

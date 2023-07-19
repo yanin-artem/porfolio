@@ -9,7 +9,7 @@ const routes = [
  {
   path:'/cart',
   name:'cart',
-  component: () =>import('../components/v-catalog.vue'),
+  component: () =>import('../components/v-cart.vue'),
   props:true
  },
  {

@@ -15,7 +15,7 @@
             </div>
         </div>
         <vCartItem v-for="(item, index) in CART"
-        :key="item.article"
+        :key="item.id"
         :cart_item_data="item"
         @deleteFromCart="deleteFromCart(index)"
         @addToCart="addToCart"
@@ -25,7 +25,7 @@
         <div class="v-cart__cost-text">
             Цена: {{ COST }}
         </div>
-        <router-link v-if="COST" :to="{name:'pay'}" class="v-cart__cost-btn">
+        <router-link v-if="COST" :to="{ name: 'pay' }" class="v-cart__cost-btn">
             Оплатить
         </router-link>
     </div>
@@ -48,14 +48,14 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART','SET_COST','SUBTRACT_COST','DELETE_COST']),
+        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART', 'SET_COST', 'SUBTRACT_COST', 'DELETE_COST']),
         deleteFromCart(index) {
             this.DELETE_COST(index);
             this.DELETE_FROM_CART(index);
         },
         addToCart(data) {
             this.ADD_TO_CART(data);
-            this.SET_COST(data);
+            this.SET_COST(data.product);
         },
         subtractFromCart(index) {
             this.SUBTRACT_COST(index);
@@ -63,7 +63,7 @@ export default {
         },
     },
     computed: {
-        ...mapGetters(['CART', 'QUANTITY','COST']),
+        ...mapGetters(['CART', 'QUANTITY', 'COST']),
     },
 }
 </script>

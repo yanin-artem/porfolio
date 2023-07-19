@@ -5,8 +5,8 @@
             Каталог
         </h1>
         <div class="v-catalog__header__cart"
-        :class="{fixed:show}">
-        <router-link class="v-catalog__header-link" :to="{name:'cart'}">
+        :class="{ fixed: show }">
+        <router-link class="v-catalog__header-link" :to="{ name: 'cart' }">
             <i class="v-catalog__header-icon material-icons">shopping_cart</i>
             {{ QUANTITY }}
         </router-link>
@@ -14,7 +14,7 @@
         </div>
         <vCatalogItem 
         v-for="product in PRODUCTS"
-        :key="product.article"
+        :key="product.id"
         :product_data="product"
         @addToCart="addToCart"
         />
@@ -30,7 +30,7 @@
 
 <script>
 import vCatalogItem from './v-catalog-item.vue';
-import { mapActions,mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'v-catalog',
     components: {
@@ -38,30 +38,33 @@ export default {
     },
     data() {
         return {
-            show:true
+            show: true
         }
     },
-    methods:{
-        ...mapActions(['GET_PRODUCTS_FROM_API','ADD_TO_CART','SET_COST']),
-        addToCart(data){
+    methods: {
+        ...mapActions(['GET_PRODUCTS_FROM_API', 'ADD_TO_CART', 'SET_COST', "GET_CART_FROM_API"]),
+        addToCart(data) {
+            console.log("addToCart", data)
             this.ADD_TO_CART(data);
-            this.SET_COST(data);
+            this.SET_COST(data.product);
         },
     },
-    computed:{
-        ...mapGetters(['PRODUCTS','CART','QUANTITY','ERROR','ERROR_MESSAGE']),
+    computed: {
+        ...mapGetters(['PRODUCTS', 'CART', 'QUANTITY', 'ERROR', 'ERROR_MESSAGE']),
     },
-    mounted(){
-        this.GET_PRODUCTS_FROM_API().then((response)=>{
-            if(response.data){
+    mounted() {
+        this.GET_PRODUCTS_FROM_API().then((response) => {
+            if (response.data) {
                 console.log("Данные пришли");
             }
         });
 
-        const observer = new IntersectionObserver(()=>{
-            this.show=!this.show;
-        },{
-            threshold:0.4
+        this.GET_CART_FROM_API()
+
+        const observer = new IntersectionObserver(() => {
+            this.show = !this.show;
+        }, {
+            threshold: 0.4
         });
         observer.observe(this.$refs.header);
     }

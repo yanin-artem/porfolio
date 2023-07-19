@@ -1,12 +1,11 @@
 <template>
     <div class="v-cart-item">
-        <img class="v-cart-item__img" :src="require('../assets/images/' + cart_item_data.image)" alt="">
+        <!-- <img class="v-cart-item__img" :src="require('../assets/images/' + cart_item_data.image)" alt=""> -->
         <div class="v-cart-item__content">
-            <h3>{{ cart_item_data.name }}</h3>
+            <h3>{{ cart_item_data.product.name }}</h3>
             <div  class="v-cart-item__content-text">
-            <div>{{ cart_item_data.price }}</div>
-            <div>{{ cart_item_data.article }}</div>
-            <div>{{ cart_item_data.about }}</div>
+            <div>{{ cart_item_data.product.price }}</div>
+            <div>{{ cart_item_data.product.about }}</div>
         </div>
         <div class="v-cart-item__quantity">
             <p>Quantity</p>
