@@ -6,10 +6,14 @@ const fetchProducts = async () => {
   });
 };
 
-const toggleAvailable = async (product) => {
-  return await axios.patch("http://localhost:8080/products/" + product.id, {
-    available: !product.available,
-  });
+const toggleAvailable = async (product, token) => {
+  return await axios.patch(
+    "http://localhost:8080/products/" + product.id,
+    {
+      available: !product.available,
+    },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
 };
 
 export const products = {

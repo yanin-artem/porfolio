@@ -10,6 +10,10 @@ export default createStore({
     allCost: 0,
     error: false,
     errorMessage: "",
+    user: {
+      id: undefined,
+      accessTocken: "",
+    },
   },
   getters: {
     PRODUCTS(state) {
@@ -30,6 +34,9 @@ export default createStore({
     ERROR_MESSAGE(state) {
       return state.errorMessage;
     },
+    USER(state) {
+      return state.user;
+    },
   },
   mutations: {
     //PRODUCTS
@@ -43,9 +50,16 @@ export default createStore({
     },
     REMOVE_FROM_CART: (state, index) => {
       state.itemsQuantity -= state.cart[index].quantity;
-      cart.deleteProductFromCart(state.cart[index]);
-      products.toggleAvailable(state.cart[index].product);
-      cart.changeProductsQuantity(state.cart[index], 1);
+      cart.deleteProductFromCart(state.cart[index], state.user.accessTocken);
+      products.toggleAvailable(
+        state.cart[index].product,
+        state.user.accessTocken
+      );
+      cart.changeProductsQuantity(
+        state.cart[index],
+        1,
+        state.user.accessTocken
+      );
       state.cart.splice(index, 1);
     },
     SUBTRACT_FROM_CART: (state, index) => {
@@ -53,11 +67,15 @@ export default createStore({
       state.cart[index].quantity--;
       cart.changeProductsQuantity(
         state.cart[index],
-        state.cart[index].quantity
+        state.cart[index].quantity,
+        state.user.accessTocken
       );
       if (state.cart[index].quantity < 2) {
-        cart.deleteProductFromCart(state.cart[index]);
-        products.toggleAvailable(state.cart[index].product);
+        cart.deleteProductFromCart(state.cart[index], state.user.accessTocken);
+        products.toggleAvailable(
+          state.cart[index].product,
+          state.user.accessTocken
+        );
         state.cart.splice(index, 1);
       }
     },
@@ -83,34 +101,54 @@ export default createStore({
     ERROR_MESSAGE: (state, errorMessage) => {
       state.errorMessage = errorMessage;
     },
+    SET_USER: (state, user) => {
+      state.user.accessTocken = user.token.access_token;
+      state.user.id = user.id;
+    },
   },
   actions: {
     //PRODUCTS
     async GET_PRODUCTS_FROM_API({ commit }, error, errorMessage) {
       const fetchedProducts = await products.fetchProducts();
       commit("SET_PRODUCTS_TO_STATE", fetchedProducts.data);
-      console.log(fetchedProducts);
     },
     //CART
     async GET_CART_FROM_API({ commit }) {
-      const fetchedCart = await cart.fetchCartProducts();
+      const fetchedCart = await cart.fetchCartProducts(
+        this.state.user.accessTocken
+      );
       fetchedCart.data.forEach((item) => {
-        commit("SET_CART", item);
-        commit("SET_COST", item.product);
+        const index = this.state.cart.findIndex(
+          (cart_item) => cart_item.id === item.id
+        );
+        console.log(index);
+        if (index === -1) {
+          commit("SET_CART", item);
+          commit("SET_COST", item.product);
+        }
       });
-
-      console.log(fetchedCart.data);
     },
     async ADD_TO_CART({ commit }, product) {
-      const addedProduct = await cart.addProductToCart(product);
+      const addedProduct = await cart.addProductToCart(
+        product,
+        this.state.user.id,
+        this.state.user.accessTocken
+      );
       const cartItem = this.state.cart.find(
         (item) => item.product.id === product.id
       );
+
       commit("SET_CART", cartItem);
     },
     async ADD_QUANTITY({ commit }, cartProduct) {
-      cart.changeProductsQuantity(cartProduct, cartProduct.quantity + 1);
-      commit("ADDITION_TO_CART", cartProduct);
+      if (this.state.user.id) {
+        cart.changeProductsQuantity(
+          cartProduct,
+          cartProduct.quantity + 1,
+          this.state.user.accessTocken
+        );
+        commit("ADDITION_TO_CART", cartProduct);
+      }
     },
     DELETE_FROM_CART({ commit }, index) {
       commit("REMOVE_FROM_CART", index);
@@ -127,6 +165,9 @@ export default createStore({
     },
     DELETE_COST({ commit }, index) {
       commit("DELETE_COST", index);
+    },
+    SET_USER({ commit }, data) {
+      commit("SET_USER", data);
     },
   },
   modules: {},

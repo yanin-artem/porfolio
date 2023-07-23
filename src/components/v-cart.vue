@@ -48,7 +48,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART', 'SET_COST', 'SUBTRACT_COST', 'DELETE_COST', 'ADD_QUANTITY']),
+        ...mapActions(['DELETE_FROM_CART', 'ADD_TO_CART', 'SUBTRACT_FROM_CART', 'SET_COST', 'SUBTRACT_COST', 'DELETE_COST', 'ADD_QUANTITY', 'GET_CART_FROM_API']),
         deleteFromCart(index) {
             this.DELETE_COST(index);
             this.DELETE_FROM_CART(index);
@@ -65,6 +65,9 @@ export default {
     computed: {
         ...mapGetters(['CART', 'QUANTITY', 'COST']),
     },
+    async mounted() {
+        await this.GET_CART_FROM_API()
+    }
 }
 </script>
 

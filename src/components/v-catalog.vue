@@ -45,26 +45,24 @@ export default {
     methods: {
         ...mapActions(['GET_PRODUCTS_FROM_API', 'ADD_TO_CART', 'SET_COST', "GET_CART_FROM_API"]),
         async addToCart(data) {
-            data.available = await products.toggleAvailable(data).available
-            this.ADD_TO_CART(data);
-            this.SET_COST(data);
+            if (this.USER.id) {
+                data.available = await products.toggleAvailable(data, this.USER.accessTocken).available
+                this.ADD_TO_CART(data);
+                this.SET_COST(data);
+            }
         },
 
     },
     computed: {
-        ...mapGetters(['PRODUCTS', 'CART', 'QUANTITY', 'ERROR', 'ERROR_MESSAGE']),
+        ...mapGetters(['PRODUCTS', 'CART', 'QUANTITY', 'ERROR', 'ERROR_MESSAGE', 'USER']),
         getProducts() {
             return this.PRODUCTS.filter(item => item.available === true)
         }
     },
-    mounted() {
-        this.GET_PRODUCTS_FROM_API().then((response) => {
-            if (response.data) {
-                console.log("Данные пришли");
-            }
-        });
+    async mounted() {
+        await this.GET_PRODUCTS_FROM_API()
 
-        this.GET_CART_FROM_API()
+        await this.GET_CART_FROM_API()
 
         const observer = new IntersectionObserver(() => {
             this.show = !this.show;
