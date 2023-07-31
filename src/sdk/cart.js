@@ -33,9 +33,41 @@ const changeProductsQuantity = async (cartProduct, currentQuantity, token) => {
   );
 };
 
+const updateCartProduct = async (data, id, token) => {
+  return await axios.patch(
+    "http://localhost:8080/product-in-cart/" + id,
+    data,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+};
+
+const fetchCartProduct = async (id, token) => {
+  return await axios.get("http://localhost:8080/product-in-cart/" + id, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+const deleteCartProduct = async (id, token) => {
+  return await axios.delete("http://localhost:8080/product-in-cart/" + id, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+const createCartProduct = async (data, token) => {
+  return await axios.post("http://localhost:8080/product-in-cart", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
 export const cart = {
   fetchCartProducts,
   addProductToCart,
   deleteProductFromCart,
   changeProductsQuantity,
+  updateCartProduct,
+  fetchCartProduct,
+  deleteCartProduct,
+  createCartProduct,
 };

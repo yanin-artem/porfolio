@@ -40,7 +40,6 @@ const onSubmit = async () => {
     const { data } = await user.authorization(formdata.value)
     console.log(data)
     store.dispatch("SET_USER", data)
-    router.push('/')
 }
 </script>
 
